@@ -4,6 +4,7 @@ import Text from '../../elements/text';
 import PriceFormat from '../../elements/price-format';
 import { useRouter } from 'next/navigation';
 import Allow from '../allow';
+import Image from 'next/image';
 
 function BallRoom({ service }) {
   const [clickedHeart, setClickedHeart] = useState(false)
@@ -24,7 +25,7 @@ function BallRoom({ service }) {
           <div onClick={handleDetail}  className="relative flex h-52 justify-center overflow-hidden rounded-lg">
             <div className="w-full transform transition-transform duration-500 ease-in-out hover:scale-110">
               <div className="absolute inset-0 bg-black bg-opacity-80">
-                <img src={`/img/${service.image}`} alt="" className='w-full h-full object-cover cursor-pointer' />
+                <Image width={800} height={800} src={`/img/${service.image}`} alt="" className='w-full h-full object-cover cursor-pointer' />
               </div>
             </div>
             <div className="absolute bottom-0 left-5 mb-3 flex bg-black p-1 bg-opacity-50 rounded-sm">

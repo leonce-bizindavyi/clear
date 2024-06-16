@@ -1,21 +1,23 @@
 "use client"
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useContext } from 'react';
+import { SideContext } from '../context/sidebar';
 
 
 const Sidebar = ({ toggleSidebar, isOpen }) => {
+  const {isClientOpen, setisClientOpen} = useContext(SideContext)
 const pathname = usePathname()
   return (
     <div className="flex">
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 shadow-md bg-white text-white transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 shadow-md bg-white text-white transition-transform duration-300 ${isClientOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         {/* Sidebar Header */}
         <div className="flex flex-col  justify-between p-4">
           <div className='sideHedear flex pt-2 w-full   justify-between'>
             <h2 className="text-xl text-gray-600 font-semibold">Menu</h2>
-            <button className="text-gray-600 hover:text-yellow-600" onClick={toggleSidebar}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
+            <button className="text-gray-600 hover:text-yellow-600" onClick={()=> setisClientOpen(!isClientOpen)}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
               </svg>
             </button>

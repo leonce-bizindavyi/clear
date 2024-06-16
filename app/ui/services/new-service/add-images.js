@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { useState } from 'react'
 
 function AddImages({images, setImages,defaultImg, setDefaultImg}) {
@@ -66,7 +67,7 @@ const handleSetDefault = (index) => {
                           images.map((image, index) => {
                               return (
                                   <div key={index} onClick={() => handleSetDefault(index)} className={`max-w-[25rem] h-full  ${index === defaultImg && "p-1 shadow bg-orange-500"}`}>
-                                      <img alt="upload preview" src={URL.createObjectURL(image)} className="img-preview w-full h-full sticky object-cover rounded-md bg-fixed" />
+                                      <Image width={800} height={800} alt="upload preview" src={URL.createObjectURL(image)} className="img-preview w-full h-full sticky object-cover rounded-md bg-fixed" />
                                   </div>
                               )
                           })
@@ -75,7 +76,7 @@ const handleSetDefault = (index) => {
                   :
                   <ul id="gallery" className="flex flex-1 flex-wrap mt-3">
                       <li id="empty" className="h-full w-full text-center flex flex-col justify-center items-center">
-                          <img className="mx-auto w-32" src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png" alt="no data" />
+                          <Image width={700} height={700} className="mx-auto w-32" src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png" alt="no data" />
                           <span className="text-small text-gray-500">No files selected</span>
                       </li>
                   </ul>

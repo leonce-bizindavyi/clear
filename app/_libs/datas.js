@@ -1,5 +1,14 @@
 import { unstable_noStore as noStore } from "next/cache"
 import executeQuery from "../_utils/db";
+
+export async function getMyServices(start, limit){
+    try {
+        const [rows] = await executeQuery('CALL getMyServices(?,?, ?)',[12,start,limit])
+        return rows[0]
+    } catch (error) {
+        console.log("Error",error)
+    }
+}
 export async function getAllRooms(start, limit){
     noStore();
     try {

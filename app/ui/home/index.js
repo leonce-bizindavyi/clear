@@ -3,7 +3,6 @@ import PerViewProperty from "./per-view-property";
 import Search from "../services/search/Search";
 import OurProject from "./our-project";
 import OurStats from "./ourstats/our-stats";
-import Notification from "./notification";
 import Footer from "./footer";
 
 export default function Home() {
@@ -16,7 +15,6 @@ export default function Home() {
                 <OurStats />
                 <ContactUs />
                 <Footer />
-                <Notification />
             </div>
         </>
     )

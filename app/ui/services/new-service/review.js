@@ -1,3 +1,4 @@
+import Image from "next/image";
 import PriceFormat from "../../elements/price-format";
 import Text from "../../elements/text";
 
@@ -24,7 +25,7 @@ function Review({
                   <div
                     className="h-64 md:h-80 rounded-lg  duration-500   flex items-center justify-center cursor-zoom"
                   >
-                    <img src={URL.createObjectURL(images[defaultImg])} alt="Image 1" className="object-contain h-full w-full" />
+                    <Image height={800} width={800} src={URL.createObjectURL(images[defaultImg])} alt="Image 1" className="object-contain h-full w-full" />
                   </div>
 
                 </div>
@@ -36,7 +37,7 @@ function Review({
                         className={`focus:outline-none rounded-lg ml-4 h-14 md:h-24 w-14 md:w-24  flex items-center justify-center relative  ${index === defaultImg ? 'ring-2 ring-yellow-500 ring-inset' : ''
                           }`}
                       >
-                        <img onClick={() => handleImageClick(index)} src={URL.createObjectURL(img)} alt={`Image ${img}`} className="object-contain h-full w-full" />
+                        <Image height={500} width={500} onClick={() => handleImageClick(index)} src={URL.createObjectURL(img)} alt={`Image ${img}`} className="object-contain h-full w-full" />
                         <svg onClick={() => handleRemoveImage(index)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 bg-yellow-600 text-white rounded-full p-1 hover:text-red-900 absolute z-10 top-2 right-0">
                           <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
                         </svg>

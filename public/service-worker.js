@@ -1,60 +1,167 @@
 const CACHE_NAME = 'mon-site-cache-v1';
-const cacheName = 'saved-wishilist-cache';
+const CACHE_LOGO = 'mon-site-logo';
+const cacheName = 'downloaded-videos-cache';
+
+const urlsToCache = ['/downloads'];
+const cache_logo = ['/logo/TeramaFlixpic.png', '/logo/TeramaFlixnam.png','/img/logo.png']
+
+self.addEventListener('install', (event) => {
+  console.log('Service worker installed');
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache)),
+    // Cache the image logo
+    caches.open(CACHE_LOGO).then((cache) => {
+      fetch(cache_logo[0]).then((response) => {
+        cache.put(cache_logo[0], response.clone());
+      });
+    }),
+    caches.open(CACHE_LOGO).then((cache) => {
+      fetch(cache_logo[1]).then((response) => {
+        cache.put(cache_logo[1], response.clone());
+      });
+    }),
+    caches.open(CACHE_LOGO).then((cache) => {
+      fetch(cache_logo[2]).then((response) => {
+        cache.put(cache_logo[2], response.clone());
+      });
+    })
+  );
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  console.log('Service worker activated');
+  event.waitUntil(self.clients.claim());
+});
 
 self.addEventListener('fetch', (event) => {
-  const requestUrl = event.request.url;
-
-  // Check if the request matches a route you want to cache
-  if (requestUrl.startsWith('/api') || requestUrl.endsWith('.json')) {
-    event.respondWith(async () => {
-      const cachedResponse = await caches.match(requestUrl);
-
-      if (cachedResponse) {
-        // Serve data from cache if it's fresh
-        const cachedResponseAge = Date.now() - cachedResponse.headers.get('Date');
-        if (cachedResponseAge < 60000) { // Cache for 1 minute (adjust as needed)
-          return cachedResponse;
-        }
-      }
-
-      // Fetch from network if not cached or stale
-      const networkResponse = await fetch(event.request);
-      // Clone the response to avoid modifying the original
-      const responseClone = networkResponse.clone();
-
-      // Cache the network response for future requests
-      caches.open('data-cache').then((cache) => {
-        cache.put(requestUrl, responseClone);
-      });
-
-      return responseClone;
-    });
+  if (event.request && event.request.url && event.request.url.endsWith('.mp4')) {
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        return response || fetch(event.request).then((fetchedResponse) => {
+          console.log(`Video fetched: ${event.request.url}`);
+          return fetchedResponse;
+        });
+      })
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        return response || fetch(event.request);
+      })
+    );
   }
 });
 
 
 self.addEventListener('message', (event) => {
-  console.log(event.data)
-  if (event.data && event.data.type === 'CASHE_WISH') {
-    const datas = event.data;
-    const newUrl ='/wishlists?mine=wishlists';
+  console.log('Message received:', event.data);
 
-    console.log(datas)
+  if (event.data && event.data.type === 'CACHE_VIDEO') {
+    const {
+      url,
+      video_Image,
+      Body,
+      Cat,
+      CatPage,
+      Categorie,
+      Category,
+      Channel,
+      Cover,
+      Created_at,
+      Hours,
+      ID,
+      Image,
+      Likes,
+      Mail,
+      NextVideo,
+      PageName,
+      PageCreated,
+      Photo,
+      Short,
+      Title,
+      User,
+      UserId,
+      Uuid,
+      Video,
+      Views,
+      Visible,
+      uniid,
+    } = event.data;
+
+    const newUrl ='/Watch?v=' + uniid;
 
     caches.open(CACHE_NAME).then((cache) => {
       cache.add(newUrl);
       console.log(`URL cached: ${newUrl}`);
     });
 
-    
+    // Cache the video with correct Content-Type
+    caches.open(cacheName).then(async (cache) => {
+      try {
+        const videoResponse = await fetch(url);
 
-    // Cache the service data as JSON using a unique key
-    const serviceDataKey = `service-wishilist_data`; // Create unique key
+        if (!videoResponse.ok) {
+          throw new Error(`Failed to fetch video: ${url}`);
+        }
+
+        const videoBlob = await videoResponse.blob();
+        console.log(videoBlob);
+        await cache.put(url, new Response(videoBlob, {
+          headers: { 'Content-Type': 'video/mp4' }
+        }));
+        console.log(`Video cached: ${url}`);
+      } catch (error) {
+        console.error('Error caching video:', error);
+      }
+    });
+
+    // Cache the video image
     caches.open(cacheName).then((cache) => {
-      const serviceDataJson = JSON.stringify({message: false});
-      return cache.put(serviceDataKey, new Response(serviceDataJson)); // Added return
+      console.log("Photo_Image",Photo)
+      fetch(video_Image).then((response) => {
+        cache.put(video_Image, response.clone());
+        console.log('Image cached successfully.');
+      });
+    });
+
+    // Create video data object
+    const videoCacheData = {
+      Body,
+      Cat,
+      CatPage,
+      Categorie,
+      Category,
+      Channel,
+      Cover,
+      Created_at,
+      Hours,
+      ID,
+      Image,
+      Likes,
+      Mail,
+      NextVideo,
+      PageName,
+      PageCreated,
+      Photo,
+      Short,
+      Title,
+      User,
+      UserId,
+      Uuid,
+      Video,
+      Views,
+      Visible,
+      uniid,
+    };
+
+    // Cache the video data as JSON using a unique key
+    const videoDataKey = `video-${videoCacheData.uniid}_data`; // Create unique key
+    caches.open(cacheName).then((cache) => {
+      const videoDataJson = JSON.stringify(videoCacheData);
+      return cache.put(videoDataKey, new Response(videoDataJson)); // Added return
     }).then(() => {
-      console.log('Service data cached successfully.');
+      console.log('Video data cached successfully.');
     });
   }
 });

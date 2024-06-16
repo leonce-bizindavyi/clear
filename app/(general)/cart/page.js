@@ -1,5 +1,5 @@
 import InCart from "@/app/ui/cart/incart";
 
-export default function Page(){
+export default async function Page(){
     return <InCart />
 }

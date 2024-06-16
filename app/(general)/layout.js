@@ -1,23 +1,20 @@
-"use client"
-import { useState } from "react";
 import SideBar from '@/app/ui/navbar/sidebar'
 import Navbar from "../ui/navbar/navbar";
+import Notification from "../ui/navbar/notification";
+import { SideProvider } from "../ui/context/sidebar";
 
 export default function RootLayout({ children }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+
   return (
     <>
-    <SideBar toggleSidebar = {toggleSidebar} isOpen = {isOpen}/>
-    <div className={`w-[100%] bg-gray-200 ${isOpen ? 'opacity-30' : ''} relative`}>
-         
-
-        <Navbar toggleSidebar = {toggleSidebar } isOpen = {isOpen}/>
-         {children}
+      <SideProvider>
+        <SideBar />
+        <div className={`w-[100%] bg-gray-200 relative`}>
+          <Navbar />
+          <Notification />
+          {children}
         </div>
-        
+      </SideProvider>
     </>
   );
 }

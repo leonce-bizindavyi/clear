@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 
 function NotFound404() {
@@ -18,7 +19,7 @@ function NotFound404() {
                     </div>
                 </div>
                 <div className="w-full md:w-1/2 text-center">
-                    <img src='/img/404NotFound.jpg' />
+                    <Image src='/img/404NotFound.jpg' width={800} height={800} alt="Not found" />
                 </div>
             </div>
             <div className="w-64 md:w-96 h-96 md:h-full bg-black bg-opacity-10 absolute -top-64 md:-top-96 right-20 md:right-32 rounded-full pointer-events-none -rotate-45 transform"></div>
