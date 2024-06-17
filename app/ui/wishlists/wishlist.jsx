@@ -6,6 +6,7 @@ import BallRoom from '../properies/room/ball-room'
 
 function Wishlist() {
     const {wishes} = useContext(ServiceContext)
+    console.log(wishes)
   return (
     <>
     <div className='max-w-screen-xl mx-auto p-1 sm:p-2 md:p-5'>

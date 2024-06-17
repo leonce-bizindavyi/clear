@@ -7,7 +7,7 @@ function WishProvider(props) {
   const [wishes, setWishes] = useState([]);
   const [isWished, setWished] = useState(false);
   useEffect(() => {
-    if (wishes.length === 0) {
+    /* if (wishes.length === 0) {
       async function getWishlist() {
         await axios
           .get("/api/wish")
@@ -15,7 +15,7 @@ function WishProvider(props) {
           .catch((error) => console.log("Error", error));
       }
       getWishlist();
-    }
+    } */
   }, [wishes.length]);
   function isInWishilist(id) {
     const newValue = wishes.filter((wish) => wish.id === id);
@@ -23,7 +23,7 @@ function WishProvider(props) {
     return newValue.length > 0
     
   }
-  function AddToWhishlist(service) {
+  function addToWhishlist(service) {
     setWishes((preWish) => [...preWish, service]);
   }
   function removeToWhishlist(id) {
@@ -36,7 +36,7 @@ function WishProvider(props) {
         wishes,
         isInWishilist,
         isWished,
-        AddToWhishlist,
+        addToWhishlist,
         removeToWhishlist,
       }}
     >

@@ -5,6 +5,7 @@ import PriceFormat from '../../elements/price-format';
 import { useRouter } from 'next/navigation';
 import Allow from '../allow';
 import Image from 'next/image';
+import AddTowishlist from '../../wishlists/add-in-wish';
 
 function BallRoom({ service }) {
   const [clickedHeart, setClickedHeart] = useState(false)
@@ -22,14 +23,14 @@ function BallRoom({ service }) {
     <div className="relative mx-auto  lg:w-[25rem] ">
       <div className="relative inline-block w-full transform transition-transform duration-300 ease-in-out hover:-translate-y-2">
         <div className="rounded-lg bg-white p-4 shadow-md">
-          <div onClick={handleDetail}  className="relative flex h-52 justify-center overflow-hidden rounded-lg">
-            <div className="w-full transform transition-transform duration-500 ease-in-out hover:scale-110">
+          <div  className="relative flex h-52 justify-center overflow-hidden rounded-lg">
+            <div onClick={handleDetail} className="w-full transform transition-transform duration-500 ease-in-out hover:scale-110">
               <div className="absolute inset-0 bg-black bg-opacity-80">
                 <Image width={800} height={800} src={`/img/${service.image}`} alt="" className='w-full h-full object-cover cursor-pointer' />
               </div>
             </div>
             <div className="absolute bottom-0 left-5 mb-3 flex bg-black p-1 bg-opacity-50 rounded-sm">
-              <div className="flex flex-row    font-medium text-white shadow-sm  space-x-1">
+              <div onClick={handleDetail} className="flex flex-row    font-medium text-white shadow-sm  space-x-1">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-yellow-500">
                   <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                 </svg>
@@ -37,10 +38,7 @@ function BallRoom({ service }) {
               </div>
             </div>
             <div className="absolute bottom-0 right-5 mb-3 flex" title='add to whishlist'>
-              <svg onClick={AddToWhishlist} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={` w-6 h-6 cursor-pointer ${clickedHeart ? "text-red-600" : "text-white"} duration-500`} >
-                <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
-              </svg>
-
+              <AddTowishlist service={service} />
             </div>
             <div className='absolute top-0 right-2 z-10 mt-3 ml-3'>
               {
